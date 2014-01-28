@@ -42,8 +42,49 @@ $(function (){
                         "-", pieceH * x, "px"
                     ].join("")
                 }).appendTo(imgContainer);
-            
+
             positions.push({ top: top, left: left});
         }
     }
+
+    img.remove();
+    container.find('#0').remove();
+
+    $('#start').on('click', function (e) {
+       var pieces = imgContainer.children();
+
+        function shuffle(array) {
+            // Fisher-Yates shuffle
+            // http://sedition.com/perl/javascript-fy.html
+            var i = array.length;
+
+            if (i === 0) {
+                return false;
+            }
+
+            while (--i) {
+                var j = Math.floor(Math.random() * (i + 1)),
+                    tempi = array[i],
+                    tempj = array[j];
+
+                array[i] = tempj;
+                array[j] = tempi;
+            }
+        }
+
+        shuffle(pieces);
+
+        $.each(pieces, function (i) {
+            pieces.eq(i).css(positions[i]);
+        });
+
+        pieces.appendTo(imgContainer);
+
+        empty.top = 0;
+        empty.left = 0;
+        // Remove all messages
+        container.find('#ui').find('p').not('#time').remove();
+    });
+
+    positions.shift();
 });
