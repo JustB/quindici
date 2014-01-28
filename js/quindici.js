@@ -86,6 +86,40 @@ $(function (){
         // Remove all messages
         container.find('#ui').find('p').not('#time').remove();
 
+        if(timer) {
+            clearInterval(timer);
+            timerDisplay.text("00:00:00");
+        }
+
+        timer = setInterval(updateTime, 1000);
+        currentTime.seconds = 0;
+        currentTime.minutes = 0;
+        currentTime.hours = 0;
+
+        function updateTime() {
+            if (currentTime.hours === 23 && currentTime.minutes === 59 && currentTime.seconds === 59) {
+                clearInterval(timer);
+            } else if (currentTime.minutes === 59 && currentTime.seconds === 59) {
+                currentTime.hours++;
+                currentTime.minutes = 0;
+                currentTime.seconds = 0;
+            } else if (currentTime.seconds === 59) {
+                currentTime.minutes++;
+                currentTime.seconds = 0;
+            } else {
+                currentTime.seconds++;
+            }
+
+            newHours = (currentTime.hours <= 9) ? "0" + currentTime.hours : currentTime.hours;
+            newMins = (currentTime.minutes <= 9) ? "0" + currentTime.minutes : currentTime.minutes;
+            newSecs = (currentTime.seconds <= 9) ? "0" + currentTime.seconds : currentTime.seconds;
+
+            timerDisplay.text([
+                newHours, ":", newMins, ":", newSecs
+            ].join(""));
+        }
+
+
         pieces.draggable({
             containment: "parent",
             grid: [pieceW, pieceH],
