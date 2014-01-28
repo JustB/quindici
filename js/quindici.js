@@ -22,4 +22,28 @@ $(function (){
         timer,
         currentTime = {},
         timerDisplay = container.find("#time").find("span");
+
+    for (var x = 0, y = aspectH; x < y; x++) {
+        for(var a = 0, b = aspectW; a < b; a++) {
+            var top = pieceH * x,
+                left = pieceW * a;
+
+            piece.clone()
+                .attr('id', idCounter++)
+                .css({
+                    width: pieceW,
+                    height: pieceH,
+                    position: "absolute",
+                    top: top,
+                    left: left,
+                    backgroundImage: ["url(", path, ")"].join(""),
+                    backgroundPosition: [
+                        "-", pieceW * a, "px ",
+                        "-", pieceH * x, "px"
+                    ].join("")
+                }).appendTo(imgContainer);
+            
+            positions.push({ top: top, left: left});
+        }
+    }
 });
