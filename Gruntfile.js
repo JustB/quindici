@@ -303,6 +303,24 @@ module.exports = function (grunt) {
                 'imagemin',
                 'svgmin'
             ]
+        },
+
+
+        // Deploy the app
+        buildcontrol: {
+            options: {
+                dir: 'dist',
+                commit: true,
+                push: true,
+                message: "Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%"
+            },
+            live: {
+                options: {
+                    remote: 'justb@borzacchiello.it:gitrepos/quindici.git',
+                    branch: 'master'
+                }
+            }
+
         }
     });
 
@@ -359,5 +377,9 @@ module.exports = function (grunt) {
         'newer:jshint',
         'test',
         'build'
+    ]);
+
+    grunt.registerTask('deploy', [
+        'buildcontrol:live'
     ]);
 };
