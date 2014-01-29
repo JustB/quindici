@@ -1,0 +1,26 @@
+{
+  "name": "quindici",
+  "version": "0.0.1",
+  "description": "A 15-puzzle game. With images! And cookies, too!",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JustB/quindici.git"
+  },
+  "keywords": [
+    "jquery"
+  ],
+  "author": "Giustino Borzacchiello",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JustB/quindici/issues"
+  },
+  "homepage": "http://borzacchiello.it/quindici",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": "~0.3.2"
+  }
+}
