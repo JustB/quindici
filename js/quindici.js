@@ -198,6 +198,26 @@ $(function (){
                     $('<p></p>', {
                         text: "Congratulations, you solved the puzzle!"
                     }).appendTo('#ui');
+
+                    var totalSeconds = (currentTime.hours * 60 * 60) + (currentTime.minutes * 60) + currentTime.seconds;
+
+                    if (localStorage.getItem('puzzleBestTime')) {
+                        var bestTime = localStorage.getItem('puzzleBestTime');
+
+                        if (totalSeconds < bestTime) {
+                            localStorage.setItem('puzzleBestTime', totalSeconds);
+
+                            $('<p></p>', {
+                                text: 'You got a new best time!'
+                            }).appendTo('#ui');
+                        }
+                    } else {
+                        localStorage.setItem('puzzleBestTime', totalSeconds);
+
+                        $('<p></p>', {
+                            text: 'You got a new best time!'
+                        }).appendTo('#ui');
+                    }
                 }
             }
         });
