@@ -124,6 +124,7 @@ $(function (){
             containment: "parent",
             grid: [pieceW, pieceH],
             start: function (e, ui) {
+                console.log("Start dragging");
                 var current = getPosition(ui.helper);
 
                 if(current.left === empty.left) {
@@ -148,6 +149,7 @@ $(function (){
 
             },
             drag: function (e, ui) {
+                console.log('In dragging');
                 var current = getPosition(ui.helper);
 
                 ui.helper.draggable('option', 'revert', false);
@@ -171,6 +173,7 @@ $(function (){
 
             },
             stop: function (e, ui) {
+                console.log("finished dragging");
                 var current = getPosition(ui.helper),
                     correctPieces = 0;
 
