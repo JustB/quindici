@@ -1,14 +1,14 @@
-console.log('\'Allo \'Allo!');
-$(function (){
-    var numberOfPieces = 12,
-        aspect = "2:2",
-        aspectW = parseInt(aspect.split(":")[0]),
-        aspectH = parseInt(aspect.split(":")[1]),
-        container = $("#puzzle"),
-        imgContainer = container.find("figure"),
-        img = imgContainer.find("img"),
-        path = img.attr("src"),
-        piece = $("<div></div>"),
+$(function () {
+    'use strict';
+    //var numberOfPieces = 12,
+    var aspect = '2:2',
+        aspectW = parseInt(aspect.split(':')[0]),
+        aspectH = parseInt(aspect.split(':')[1]),
+        container = $('#puzzle'),
+        imgContainer = container.find('figure'),
+        img = imgContainer.find('img'),
+        path = img.attr('src'),
+        piece = $('<div></div>'),
         pieceW = Math.floor(img.width() / aspectW),
         pieceH = Math.floor(img.height() / aspectH),
         idCounter = 0,
@@ -22,10 +22,10 @@ $(function (){
         previous = {},
         timer,
         currentTime = {},
-        timerDisplay = container.find("#time").find("span");
+        timerDisplay = container.find('#time').find('span');
 
     for (var x = 0, y = aspectH; x < y; x++) {
-        for(var a = 0, b = aspectW; a < b; a++) {
+        for (var a = 0, b = aspectW; a < b; a++) {
             var top = pieceH * x,
                 left = pieceW * a;
 
@@ -34,14 +34,14 @@ $(function (){
                 .css({
                     width: pieceW,
                     height: pieceH,
-                    position: "absolute",
+                    position: 'absolute',
                     top: top,
                     left: left,
-                    backgroundImage: ["url(", path, ")"].join(""),
+                    backgroundImage: ['url(', path, ')'].join(''),
                     backgroundPosition: [
-                        "-", pieceW * a, "px ",
-                        "-", pieceH * x, "px"
-                    ].join("")
+                        '-', pieceW * a, 'px ',
+                        '-', pieceH * x, 'px'
+                    ].join('')
                 }).appendTo(imgContainer);
 
             positions.push({ top: top, left: left});
@@ -52,8 +52,8 @@ $(function (){
     container.find('#0').remove();
     positions.shift();
 
-    $('#start').on('click', function (e) {
-       var pieces = imgContainer.children();
+    $('#start').on('click', function () {
+        var pieces = imgContainer.children();
 
         function shuffle(array) {
             // Fisher-Yates shuffle
@@ -87,17 +87,14 @@ $(function (){
         // Remove all messages
         container.find('#ui').find('p').not('#time').remove();
 
-        if(timer) {
+        if (timer) {
             clearInterval(timer);
-            timerDisplay.text("00:00:00");
+            timerDisplay.text('00:00:00');
         }
 
-        timer = setInterval(updateTime, 1000);
-        currentTime.seconds = 0;
-        currentTime.minutes = 0;
-        currentTime.hours = 0;
-
         function updateTime() {
+            var newHours, newMins, newSecs;
+
             if (currentTime.hours === 23 && currentTime.minutes === 59 && currentTime.seconds === 59) {
                 clearInterval(timer);
             } else if (currentTime.minutes === 59 && currentTime.seconds === 59) {
@@ -111,29 +108,34 @@ $(function (){
                 currentTime.seconds++;
             }
 
-            newHours = (currentTime.hours <= 9) ? "0" + currentTime.hours : currentTime.hours;
-            newMins = (currentTime.minutes <= 9) ? "0" + currentTime.minutes : currentTime.minutes;
-            newSecs = (currentTime.seconds <= 9) ? "0" + currentTime.seconds : currentTime.seconds;
+            newHours = (currentTime.hours <= 9) ? '0' + currentTime.hours : currentTime.hours;
+            newMins = (currentTime.minutes <= 9) ? '0' + currentTime.minutes : currentTime.minutes;
+            newSecs = (currentTime.seconds <= 9) ? '0' + currentTime.seconds : currentTime.seconds;
 
             timerDisplay.text([
-                newHours, ":", newMins, ":", newSecs
-            ].join(""));
+                newHours, ':', newMins, ':', newSecs
+            ].join(''));
         }
+
+        timer = setInterval(updateTime, 1000);
+        currentTime.seconds = 0;
+        currentTime.minutes = 0;
+        currentTime.hours = 0;
 
 
         pieces.draggable({
-            containment: "parent",
+            containment: 'parent',
             grid: [pieceW, pieceH],
             start: function (e, ui) {
-                console.log("Start dragging");
+                console.log('Start dragging');
                 var current = getPosition(ui.helper);
 
-                if(current.left === empty.left) {
+                if (current.left === empty.left) {
                     ui.helper.draggable('option', 'axis', 'y');
                 } else if (current.top === empty.top) {
                     ui.helper.draggable('option', 'axis', 'x');
                 } else {
-                    ui.helper.trigger("mouseup");
+                    ui.helper.trigger('mouseup');
                     return false;
                 }
 
@@ -174,7 +176,7 @@ $(function (){
 
             },
             stop: function (e, ui) {
-                console.log("finished dragging");
+                console.log('finished dragging');
                 var current = getPosition(ui.helper),
                     correctPieces = 0;
 
@@ -186,8 +188,8 @@ $(function (){
                 }
 
                 $.each(positions, function (i) {
-                   var currentPiece = $('#' + (i + 1)),
-                       currentPosition = getPosition(currentPiece);
+                    var currentPiece = $('#' + (i + 1)),
+                        currentPosition = getPosition(currentPiece);
 
                     if (positions[i].top === currentPosition.top && positions[i].left === currentPosition.left) {
                         correctPieces++;
@@ -197,7 +199,7 @@ $(function (){
                 if (correctPieces === positions.length) {
                     clearInterval(timer);
                     $('<p></p>', {
-                        text: "Congratulations, you solved the puzzle!"
+                        text: 'Congratulations, you solved the puzzle!'
                     }).appendTo('#ui');
 
                     var totalSeconds = (currentTime.hours * 60 * 60) + (currentTime.minutes * 60) + currentTime.seconds;
@@ -225,17 +227,15 @@ $(function (){
 
         function getPosition(el) {
             return {
-                top: parseInt(el.css("top")),
+                top: parseInt(el.css('top')),
                 bottom: parseInt(el.css('top')) + pieceH,
                 left: parseInt(el.css('left')),
                 right: parseInt(el.css('left')) + pieceW
-            }
+            };
         }
 
 
     });
-
-
 
 
 });
