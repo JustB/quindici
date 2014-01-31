@@ -198,6 +198,7 @@ $(function () {
 
                 if (correctPieces === positions.length) {
                     clearInterval(timer);
+                    pieces.draggable('disable');
                     $('<p></p>', {
                         text: 'Congratulations, you solved the puzzle!'
                     }).appendTo('#ui');
