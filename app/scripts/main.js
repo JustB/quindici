@@ -1,7 +1,7 @@
 $(function () {
     'use strict';
     //var numberOfPieces = 12,
-    var aspect = '2:2',
+    var aspect = '4:4',
         aspectW = parseInt(aspect.split(':')[0]),
         aspectH = parseInt(aspect.split(':')[1]),
         container = $('#puzzle'),
